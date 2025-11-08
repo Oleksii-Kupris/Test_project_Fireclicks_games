@@ -1,5 +1,6 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
+using System.Text.Json;
 
 namespace Server.Services
 {
@@ -8,12 +9,42 @@ namespace Server.Services
 		private const string SharedKey = "shared_secret_key";
 		private readonly byte[] _key;
 		private readonly byte[] _iv = new byte[16];
-		private readonly Dictionary<string, int> _requests = new Dictionary<string, int>();
+        private readonly string _savePath = Path.Combine(AppContext.BaseDirectory, "requests.json");
+
+        private Dictionary<string, int> _requests = new Dictionary<string, int>();
 
         public TokenService()
         {
             using var sha = SHA256.Create();
             _key = sha.ComputeHash(Encoding.UTF8.GetBytes(SharedKey));
+            LoadRequests();
+        }
+        private void LoadRequests()
+        {
+            if (File.Exists(_savePath))
+            {
+                try
+                {
+                    var json = File.ReadAllText(_savePath);
+                    _requests = JsonSerializer.Deserialize<Dictionary<string, int>>(json) ?? new Dictionary<string, int>();
+                }
+                catch (Exception ex)
+                {
+                    _requests = new Dictionary<string, int>();
+                }
+            }
+        }
+        private void SaveRequests()
+        {
+            try
+            {
+                var json = JsonSerializer.Serialize(_requests, new JsonSerializerOptions { WriteIndented = true });
+                File.WriteAllText(_savePath, json);
+            }
+            catch
+            {
+                
+            }
         }
 
         public string? DecryptToken(string encrypted)
@@ -45,6 +76,7 @@ namespace Server.Services
                 _requests[userId] = 0;
 
             _requests[userId]++;
+            SaveRequests();
             return _requests[userId];
         }
     }

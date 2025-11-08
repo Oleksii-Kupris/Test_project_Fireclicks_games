@@ -55,3 +55,10 @@ Running the Unity Client
 Each request is stored per-user on the server side and increases with each click.
 Results are logged both in the Unity console and in the local log file.
     
+Files and Data Locations
+    •    Server data:
+/Server/bin/Debug/net7.0/requests.json — stores all user request counts.
+    •    Client token:
+Saved in Unity PlayerPrefs under key "token_key", encrypted with AES-256.
+    •    Log file:
+~/Desktop/log.txt — stores runtime logs from the built application.

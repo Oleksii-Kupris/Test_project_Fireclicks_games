@@ -41,7 +41,6 @@ namespace Domain.Loggin
         {
 #if UNITY_EDITOR
             LogUnity(message);
-            LogToFile(message);
 #else
             LogToFile(message);
 #endif
