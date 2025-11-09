@@ -11,8 +11,8 @@ Core Structure
 Unity
 
 Scenes:
-    •    EntryPoint — entry scene (boot, FSM start)
-    •    GameLoop — main scene with tabs and gameplay logic
+        EntryPoint — entry scene (boot, FSM start)
+        GameLoop — main scene with tabs and gameplay logic
 
 Game States:
     1.    InitializationState — generates and encrypts a user token
@@ -20,20 +20,20 @@ Game States:
     3.    GameLoopState — enables gameplay logic and CPU frame-time overlay
     
 Features
-    •    Uses Addressables for all scene and UI loading (CpuOverlay, LoadingCanvas)
-    •    Virtualized UI List capable of displaying thousands of elements using a lightweight object pool
-    •    Grouped List Tab built from a RarityDatabase ScriptableObject.
+         Uses Addressables for all scene and UI loading (CpuOverlay, LoadingCanvas)
+         Virtualized UI List capable of displaying thousands of elements using a lightweight object pool
+         Grouped List Tab built from a RarityDatabase ScriptableObject.
 Each rarity entry (code, color, count) can be configured directly in the asset,
 allowing full control over the displayed pattern (Green → Purple → Gold, etc.)
-    •    Big List Tab can display any custom number of sequential elements,
+        Big List Tab can display any custom number of sequential elements,
 not limited to 1000 — the number is passed dynamically to the list binding method.
-    •    Request Tab sends the encrypted token to the local API and displays how many times the user has made a request.
-    •    CPU Frame Time Overlay shows real CPU frame time excluding v-sync, displayed across all scenes.
-    •    Custom Logger with two output modes:
-    •    Logs to Unity console (in Editor)
-    •    Logs to file (Application.persistentDataPath/log.txt) in builds
-    •    AES-256 Token Encryption with CBC mode and PKCS7 padding
-    •    Persistent token storage using PlayerPrefs
+        Request Tab sends the encrypted token to the local API and displays how many times the user has made a request.
+        CPU Frame Time Overlay shows real CPU frame time excluding v-sync, displayed across all scenes.
+        Custom Logger with two output modes:
+        Logs to Unity console (in Editor)
+        Logs to file (Application.persistentDataPath/log.txt) in builds
+        AES-256 Token Encryption with CBC mode and PKCS7 padding
+        Persistent token storage using PlayerPrefs
 
 Running the Server
     1.    Open the Server folder in Visual Studio or Rider.
@@ -48,17 +48,17 @@ Running the Unity Client
     3.    Press Play.
     4.    Wait for the loading screen to transition to the main GameLoop scene.
     5.    Use the available tabs:
-    •    Big List Tab — displays a dynamically generated list of elements (default 1000, configurable in code).
-    •    Grouped List Tab — displays items with colors and counts defined in the RarityDatabase asset.
-    •    Request Tab — sends encrypted token requests to the local WebAPI server and shows the request count.
+        Big List Tab — displays a dynamically generated list of elements (default 1000, configurable in code).
+        Grouped List Tab — displays items with colors and counts defined in the RarityDatabase asset.
+        Request Tab — sends encrypted token requests to the local WebAPI server and shows the request count.
 
 Each request is stored per-user on the server side and increases with each click.
 Results are logged both in the Unity console and in the local log file.
     
 Files and Data Locations
-    •    Server data:
+        Server data:
 /Server/bin/Debug/net7.0/requests.json — stores all user request counts.
-    •    Client token:
+        Client token:
 Saved in Unity PlayerPrefs under key "token_key", encrypted with AES-256.
-    •    Log file:
+        Log file:
 ~/Desktop/log.txt — stores runtime logs from the built application.
